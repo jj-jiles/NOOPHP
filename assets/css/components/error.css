@@ -1,0 +1,24 @@
+<?php include(dirname(dirname(__FILE__)) . '/class.css.php'); ?>
+
+#error-page { padding: 0 0 50px 0; }
+
+.text-bubble { 
+	position: relative; 
+	width: 742px; 
+	height: 95px; 
+	line-height: 95px; 
+	text-align: center;
+	font-size: <?= CSS_FONT_H1_SIZE_NORMAL; ?>;
+	color: #1ab4c7;
+	margin: 80px 0 0 40px; 
+	background: #c1e7f0;
+	border: 2px solid #1ab4c7;
+	<?
+		$css->border_radius('4px');
+	?>
+}
+#gill { position: relative; margin: -25px 0 0 710px; width: 151px; height: 121px; }
+
+
+
+

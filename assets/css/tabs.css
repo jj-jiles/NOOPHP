@@ -1,0 +1,445 @@
+<?php include(dirname(dirname(__FILE__)) . '/css/class.css.php'); ?>
+/* ****
+* tab header properties **** */
+.tabs { 
+	color: <?= CSS_COLOR_PRIMARY_DARK; ?>;
+	position: relative; 
+	margin: 0 4px -2px 0; 
+	width: 970px; 
+	text-align: right; 
+}
+    .tabs b { position: relative; margin: 0; <? $css->inline_block(); ?> }
+	.tabs b a {
+		color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>;
+		position: relative; 
+		height: 40px; 
+		line-height: 40px; 
+		vertical-align: middle; 
+		padding: 0 12px 0 12px; 
+		background: <?= CSS_COLOR_PRIMARY_DARK; ?>;
+		<? $css->inline_block(); ?> 
+	}
+	
+    .tabs b.active a { background: <?= CSS_COLOR_BLUE_MEDIUM; ?>; }
+        .tabs b a { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; text-decoration: none; }
+		
+        .tabs b.active a { color: #fff; }
+        .tabs b a:hover  { color: <?= CSS_COLOR_SECONDARY_DARK; ?>; background: <?= CSS_COLOR_BLUE_LIGHT; ?>; }
+ 
+        .tabs b.inactive a:hover { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; background: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+ 
+/* ****
+* tab content **** */
+	.tab-ul {
+		font-family: <?= CSS_FONT_FAMILY; ?>;
+		position: relative; 
+		width: 100%; 
+		padding: 0; 
+		margin: 0 0 0 0;
+		height: auto;
+		list-style: none; 
+		background: #fff; 
+		border: 1px solid #d3d3d3; 
+	}
+	
+	.tab-content { position: relative; overflow: visible; }
+	
+	.tab-wrapper { 
+		position: relative; 
+		width: 944px;
+		margin: 0 auto;
+		overflow: visible;
+		padding: 18px;
+		background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>;
+		border: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>;
+		<? $css->border_radius('6px'); ?>
+	}
+	.tab-content h2 {
+		color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>;
+		font-weight: normal;
+		font-family: <?= CSS_FONT_H2_FAMILY; ?>;
+		letter-spacing: <?= CSS_FONT_LETTER_SPACING; ?>;
+		position: relative;
+		background: <?= CSS_COLOR_PRIMARY_DARK; ?> url(/images/dashHeaderBg.png) no-repeat;
+		margin-left: -25px;
+		margin-top: -5px;
+		line-height: 64px;
+		padding-left: 23px;
+		height: 55px;
+		width: 970px;
+		position: relative;
+		z-index: 10;
+		text-shadow: 1px 1px 1px <?= CSS_COLOR_SECONDARY_DARK; ?>;
+	}
+	
+	
+	.tabs-pagination {
+		padding: 10px 20px 10px 20px;
+		margin: 0 auto 0 auto;
+		font-weight: bold;
+		text-align: center;
+		background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+		<? $css->box_shadow('inset 0 2px 3px '.CSS_COLOR_PRIMARY_DARK); ?>
+	}
+	
+	.tabs-pagination .pagination-pages {
+		overflow: hidden;
+		white-space: nowrap;
+		font-weight: normal;
+		text-align: center;
+		<? $css->inline_block(); ?>
+	}
+	
+	.tabs-pagination a, .tabs-pagination b {
+		text-decoration: none;
+		border: 1px solid <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+		padding: 4px 10px 4px 10px;
+		<? $css->inline_block(); ?>
+	}
+	.tabs-pagination a:HOVER, .tabs-pagination b {
+		border: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>;
+		background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+		text-shadow: 1px 1px 0 <?= CSS_COLOR_PRIMARY_LIGHT; ?>;
+	}
+	.tabs-pagination a:HOVER {
+		<? $css->box_shadow('0 0 1px '.CSS_COLOR_PRIMARY_DARK); ?>
+	}
+	
+	.tabs-pagination a.prev-next.hide { visibility: hidden; }
+	.tabs-pagination a.prev-next { font-size: <?= CSS_FONT_SIZE_SMALL; ?>; }
+	
+		
+	/* ***
+	* Tab LI *** */
+		.tab-ul li.tab-li { overflow: hidden; margin: 0; padding: 0; *margin-bottom: -3px; font-weight: normal; border-bottom: 1px solid #d3d3d3; cursor: pointer; }
+		
+			.tab-ul li.tab-li:nth-child(even) { background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>; }
+			.tab-ul li.tab-li:HOVER { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; background: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+			.tab-ul li.tab-li:HOVER b a { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; }
+			.tab-ul li.tab-li li,
+			.tab-ul li.tab-li div,
+			.tab-ul li.tab-li p { color: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+			
+			.tab-ul li.tab-li li a, .tab-ul li.tab-li:HOVER li a { color: <?= CSS_FONT_A_COLOR; ?>; }
+		
+		.no-records { height: 32px; line-height: 32px; text-indent: 10px; }
+		
+		.dashboard .tab-ul li.li-selected    { width: 943px; height: auto; line-height: auto; margin-left: -3px; cursor: default; background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; border: 4px solid <?= CSS_COLOR_PRIMARY_MEDIUM; ?>; <? $css->border_radius('4px'); ?> }
+		.dashboard .tab-ul li.lead-purchased { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; background: <?= CSS_COLOR_BLUE_MEDIUM; ?>; }
+		.dashboard .tab-ul li.lead-purchased a { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; }
+		.dashboard .tab-ul li.lead-purchased .project-details a { color: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+		
+		.dashboard .tab-ul li.li-lead-purchased .project-name       { font-weight: bold; color: <?= CSS_COLOR_BLUE_DARK; ?>; text-shadow: 1px 1px <?= CSS_COLOR_PRIMARY_LIGHT; ?>; }
+		.dashboard .tab-ul li.li-lead-purchased:HOVER .project-name { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; text-shadow: 1px 1px #000; }
+		.dashboard .tab-ul li.li-lead-purchased.li-selected .project-name { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; text-shadow: 1px 1px #000; }
+	/* *** */
+	
+	/* ****
+	* Tab Column Headers **** */
+		#tabs-headers { position: relative; width: 100%; margin: 0; padding: 0; list-style: none; text-transform: uppercase; font-weight: bold; background: #f4f3ef; border: 1px solid #d3d3d3; <? $css->gradient(CSS_COLOR_PRIMARY_LIGHT, CSS_COLOR_PRIMARY_MEDIUM); ?> }
+		#tabs-headers li, .li-item b { font-weight: normal; text-align: center; overflow: hidden; margin: 0 -2px 0 -2px; padding: 0; <? $css->inline_block(); ?> }
+		
+		#tabs-headers li { font-weight: bold; height: 40px; line-height: 40px; vertical-align: middle; }
+	/* **** */
+	
+	/* ****
+	* Tab Line Items **** */
+		.li-item { clear: both; }
+		.li-item b { overflow: hidden; vertical-align: center; height: 32px; line-height: 32px; float: left; }
+	
+		#tabs-headers li, .tab-ul .li-item b { width: 152px; cursor: pointer; border-left: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>; }
+		#tabs-headers li   { width: 150px; }
+		
+		#tabs-headers .project-name, .li-item .project-name { font-weight: bold; text-indent: 10px; text-align: left; cursor: pointer; border: 0; }
+		#tabs-headers li.project-name   { width: 441px; }
+		#tabs-headers li.platform_icons { width: 201px!important; }
+		
+		.li-item b.project-name   { font-weight: normal; width: 444px; }
+		.li-item b.platform_icons { padding-left: 4px; padding-right: 4px; width: 197px!important; }
+		
+		/* *****
+			* Tool Tips ***** */
+			.platforms-title-hover-pointer { display: block; *display: none; position: absolute; z-index: 6; width: 10px; height: 8px; left: 50%; margin: -20px 0 0 -8px;
+				*background-color: #333; 
+				<?php $css->background_opacity('99'); $css->border_radius('8px 8px 0 0'); ?> background-color: rgba(48,46,43,0.7); }
+			.platforms-title-hover { display: none; position: absolute; z-index: 6; width: 250px; padding: 12px; margin: 36px 0 0 -130px; *margin: -2px 0 0 -64px; color: #fff!important; font-weight: normal;
+				font-size: 110%; line-height: 125%; text-align: left; *background-color: #333; 
+				<?php $css->background_opacity('90'); $css->border_radius('4px'); $css->box_shadow('0 2px 5px #575551'); ?> background-color: rgba(48,46,43,0.7); }
+				
+			.platform_icons:HOVER { z-index: 5; }
+			.platform_icons:HOVER .platforms-title-hover-pointer { <?php $css->inline_block(); ?> }
+			.platform_icons:HOVER .platforms-title-hover { <?php $css->inline_block(); ?> }
+		
+		/* ***** */
+			
+			
+		#tabs-headers .services, .li-item .services { width: 16%; }
+		#tabs-headers .manage, .li-item .manage   { text-decoration: underline; cursor: pointer; width: 150px; }
+	/* **** */
+/* **** */
+
+
+/* ****
+* Project Management Form Elements **** */
+		
+	.li-selected b { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; background: <?= CSS_COLOR_SECONDARY_DARK; ?>!important; }
+	.li-selected b a { color: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; }
+	.project-details { display: none; height: auto; background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; }
+	
+	.li-item form b { overflow: visible; width: auto; height: auto; line-height: auto; font-weight: bold; padding: 0; text-indent: auto; text-align: left; float: none; border: 0!important; }
+	
+	.li-item .project-name em { 
+		position: absolute; 
+		z-index: 10; 
+		overflow: hidden; 
+		text-indent: 12px; 
+		padding-right: 12px; 
+		width: 18px; 
+		height: 32px; 
+		margin-left: -30px; 
+		margin-left: -40px\9;
+		*margin: -8px 0 0 -40px;
+		zoom: 1;
+		color: #fff; 
+		text-shadow: 1px 1px 1px <?= CSS_COLOR_SECONDARY_DARK; ?>;
+		<?php 
+			$css->inline_block(); 
+			$css->border_radius('2px 0 0 2px'); 
+			$css->box_shadow('-1px 1px 2px '.CSS_COLOR_PRIMARY_DARK); 
+			$css->gradient(CSS_COLOR_ORANGE_MEDIUM, CSS_COLOR_ORANGE_DARK);
+		?>
+	}
+	.li-item .project-name em b { width: auto; font-weight: normal; background: transparent!important; }
+	.li-item .project-name em:HOVER { width: auto; <? $css->border_radius('2px'); ?> }
+	
+	/* ***
+	* Project Management Elements *** */
+	
+		.project-manage-form   { padding-bottom: 20px; }
+		.project-manage-form p { padding: 4px 0 0 10px; }
+		.project-manage-form .buttons { width: 98%; }
+		
+		form.close-project.project-manage-form { 
+			padding: 14px;
+			background: <?= CSS_COLOR_PRIMARY_DARK; ?>; 
+		}
+		form.close-project.project-manage-form input[type=submit] { <? $css->box_shadow('0 0 5px '.CSS_COLOR_SECONDARY_DARK); ?> }
+	
+	/* *** / *** */
+	
+	
+	
+	/* ***
+	* Project Details Elements *** */
+		.project-details .float-left,
+		.project-details .float-right { margin: 0; padding: 0; height: auto; width: 48%; }
+		
+		
+		.project-details input, .project-details select, .project-details textarea { width: auto; padding: 6px 8px 6px 8px; }
+		.project-details input[type=text] { width: 95%; }
+		.project-details .date { font-size: 100%; font-weight: normal; text-align: left; width: auto!important; }
+		.project-details textarea { width: 90%; height: 136px; }
+		.project-details input[type=submit], .project-details input[type=button] {
+			padding: 10px; margin-right: 10px; }
+			
+					
+		.project-details-form     { color: <?= CSS_COLOR_SECONDARY_DARK; ?>; height: auto!important; padding: 0 12px 24px 12px; }
+		.project-details-form p   { font-family: Georgia; padding: 0 8px 18px 8px; }
+		.project-details-form p b, .project-details-form div b  { font-family: <?= CSS_FONT_FAMILY; ?>; display: inline; color: <?= CSS_COLOR_SECONDARY_DARK; ?>; overflow: visible; height: auto; line-height: auto; font-size: 110%; background: none transparent!important; }
+		.project-detauls-form platforms,
+		.project-details-form .description { vertical-align: top; padding: 4px; margin: 0; height: 136px; width: 95%; overflow: hidden; overflow-y: scroll; <? $css->inline_block(); ?> }
+	
+	/* *** / *** */
+	
+	
+	
+	/* ***
+	* Project Bidding Developers Elements
+	*** */
+	
+		#project-bidders-list { font-weight: normal; font-size: 90%; padding: 0 0 18px 0;  width: 95%; overflow: hidden; margin: 20px auto 20px auto; background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; border: 4px solid <?= CSS_COLOR_PRIMARY_MEDIUM; ?>; <? $css->border_radius('5px'); ?> }
+		
+		#project-bidders-list * { font-size: <?= CSS_FONT_SIZE_NORMAL; ?>; }
+		
+		#project-bidders-list ul { margin: 0 0 18px 0; padding: 0; list-style: none; width: 100%; overflow: hidden; }
+		#project-bidders-list ul li { margin: 0; padding: 0; width: 1000px; height: auto; line-height: auto; }
+		
+		#project-bidders-list h5.header { font-weight: bold; font-size: 110%; margin: 0; padding: 12px; background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>; color: <?= CSS_COLOR_SECONDARY_DARK; ?>;}
+		
+		#project-bidders-list li.bidders-list { margin: 0; padding: 0; list-style: none; background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; color: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+		#project-bidders-list li.bidders-list:hover { background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; color: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+
+		#project-bidders-list li b { height: 32px; border: 0; font-weight: normal; padding: 14px auto 14px auto; text-align: center; overflow: hidden; background-color: transparent!important; color: <?= CSS_COLOR_SECONDARY_DARK; ?>; cursor: default; <? $css->inline_block(); ?> }
+		#project-bidders-list li b:nth-child(even) { border-left: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>!important; border-right: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>!important; }
+		
+		#project-bidders-list li b.developer-email { border-right: 0!important; }
+		#project-bidders-list li b:last-child { border-left: 0!important; border-right: 0!important; }
+		
+		#project-bidders-list ul li.headers { height: 32px; padding: 0; margin: 0; font-size: <?= CSS_FONT_SIZE_NORMAL; ?>; <? $css->gradient(CSS_COLOR_PRIMARY_LIGHT, CSS_COLOR_PRIMARY_MEDIUM); ?> }
+		
+		#project-bidders-list ul li.headers b { font-weight: normal; padding: 0; margin: 0; }
+		
+		#project-bidders-list li.headers b.developer-name   { font-weight: bold; text-indent: 10px; text-align: left; cursor: pointer; border: 0; width: 314px; border-left: 0; }
+		#project-bidders-list li.headers b.developer-rating { width: 140px; }
+		#project-bidders-list li.headers b.developer-phone  { width: 160px; }		
+		#project-bidders-list li.headers b.developer-email  { width: 205px; }
+		#project-bidders-list li.headers b.developer-hire   { width: 60px; }
+		
+		#project-bidders-list b.developer-name   { width: 320px; }
+		#project-bidders-list b.developer-rating { width: 140px; }
+		#project-bidders-list b.developer-phone  { width: 168px; }
+		#project-bidders-list b.developer-email  { width: 205px; }
+		#project-bidders-list b.developer-hire   { width: 68px; border-right: 0!important; }
+		
+		li.bidders-list b { border-bottom: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>!important; }
+		
+		.project-details-form #project-bidders-list li.headers b.developer-name { width: 354px!important; }
+		.project-details-form #project-bidders-list b.developer-name { width: 360px!important; }
+		.project-details-form #project-bidders-list b.developer-email { border-right: 0!important; }
+		.project-details-form #project-bidders-list b.developer-hire { display: none; }
+		.project-details-form #project-bidders-list div.buttons { display: none; }
+		
+/* **** */
+
+
+.developer-tabs li.tab-li  { padding: 14px; }
+.developer-tabs input[type=text],
+.developer-tabs input[type=password] { width: 70%; }
+.developer-tabs select { width: auto; }
+.developer-tabs li.tab-li:HOVER { cursor: default; background: none transparent; }
+
+
+
+/* ****
+*	Dashboard Project Platforms Select **** */
+.platforms-select-list { 
+	height: 150px; 
+	padding: 0;
+	margin: -10px 18px -18px 8px;
+	background: #fff; 
+	border: 1px solid <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+	overflow: hidden; 
+	overflow-y: scroll;
+	<? $css->border_radius('2px'); ?> 
+}
+.platforms-select-list li {
+	padding: 8px 0 8px 0!important;
+	margin: 0;
+	text-indent: 18px;
+}
+ul.platforms-select-list li:HOVER { color: #fff; background: <?= CSS_COLOR_BLUE_DARK; ?>!important; }
+ul.platforms-select-list li.selected { color: #fff; background: <?= CSS_COLOR_BLUE_MEDIUM; ?>!important; }
+ul.platforms-select-list li.selected:HOVER { color: #fff; background: <?= CSS_COLOR_BLUE_LIGHT; ?>!important; }
+
+
+/* *****************************************************************
+*
+* GRIDS
+*
+***************************************************************** */
+
+	.grid-list          { overflow: hidden; list-style: none; margin: 0; padding: 0; border-bottom: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>; }
+	.grid-list li       { border: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>; border-bottom: 0; padding: 0; margin: 0; }
+	.grid-list li b     { 
+		position: relative;
+		white-space: nowrap;
+		font-weight: normal; 
+		height: 32px; 
+		line-height: 32px; 
+		padding: 0;
+		text-indent: 10px;
+		margin: 0; 
+		text-align: center; 
+		<? $css->inline_block(); ?> 
+	}
+	.grid-list li b:nth-child(even) { border-left: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>; border-right: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>; }
+	
+	ul.project-details-client-grid li.grid-item b { padding: 0 auto 0 auto; }
+	
+	ul.grid-list li.grid-item { height: 32px; line-height: 32px; overflow: hidden; }
+	
+	.grid-list b { background: transparent none!important; color: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+	
+	.grid-list li b.grid-item-checkbox { width: 35px; text-align: center!important; text-indent: 0!important; }
+	.grid-list li b.grid-item-checkbox input { margin: 0 auto 0 auto; width: auto; }
+	.grid-list li b.grid-item-10  { width: 9%; overflow: hidden; }
+	.grid-list li b.grid-item-20   { width: 19%; text-align: left; overflow: hidden; }
+	.grid-list li b.grid-item-40   { width: 39%; text-align: left; overflow: hidden; }
+	.grid-list li b.grid-item-15   { width: 14%; text-align: left; overflow: hidden; }
+	.grid-list li b.grid-item-20 b { width: 800px; text-indent: 0; text-align: left; }
+	
+	.grid-list input { width: auto; }
+	
+	.grid-list .no-items { height: 40px; line-height: 40px; text-indent: 20px; }
+	
+	.grid-list a { text-decoration: none; }
+	
+	.grid-list .headers { <? $css->border_radius('4px 4px 0 0'); $css->gradient(CSS_COLOR_PRIMARY_LIGHT, CSS_COLOR_PRIMARY_MEDIUM); ?> }
+	.grid-list .headers b { background: transparent none!important; text-align: center; text-shadow: 1px 1px 0 <?= CSS_COLOR_PRIMARY_LIGHT; ?>; }
+	.grid-list .headers b:first-child,
+	.grid-list .grid-item b:first-child { text-indent: 12px; }
+	
+	.grid-list b a { color: <?= CSS_FONT_A_COLOR; ?>!important; }
+
+/* ***************************************************************** */
+
+
+/* *****************************************************************
+*
+* ALERT MESSAGE
+*
+***************************************************************** */
+#alert-message-table { width: 600px; padding: 0; margin: 0; list-style: none; overflow: hidden; background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>; <? $css->border_radius('4px'); ?> }
+#alert-message-table li { width: 1000px; }
+#alert-message-table li.headers { 
+	overflow: hidden;
+	<? 
+		$css->border_radius('4px 4px 0 0');
+		$css->gradient(CSS_COLOR_PRIMARY_LIGHT, CSS_COLOR_PRIMARY_MEDIUM); 
+		$css->inline_block(); 
+	?>
+}
+
+#alert-message-table li b {
+	padding: 10px 12px 10px 12px;
+	width: 136px;
+	<? $css->inline_block(); ?>
+}
+
+#alert-message-table li.items b { font-weight: normal; }
+
+
+#alert-message-table li b:nth-child(even) { border-left: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>; border-right: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>; } 
+
+#alert-message-table li b.email      { width: 166px!important; } 
+#alert-message-table li b:last-child { width: 51px!important; border-right: 0;} 
+
+#alert-message-table.portfolio li b:first-child { vertical-align: top; }
+#alert-message-table.portfolio li b:last-child { width: 400px!important; border-right: 0; }
+
+
+
+.tooltip { position: relative; overflow: visible!important; }
+	.tooltip .tooltip-data-pointer { display: none; width: 150px; height: 25px; left: 0; margin: -37px 0 0 0; }
+	.tooltip .tooltip-data { display: block; position: absolute; font-size: 90%; width: 240px; margin: 0; }
+				
+		.tooltip .tooltip-hover { padding: 12px; color: <?= CSS_COLOR_BLUE_DARK; ?>; font-weight: bold; text-decoration: none; }
+		.tooltip .tooltip-hover:HOVER a { 
+			color: #fff!important; 
+			z-index: 20; 
+			color: #fff; 
+			z-index: 20; 
+			*background-color: #333; 
+			<?php 
+				$css->background_opacity('99'); 
+				$css->border_radius('8px 0 0 8px'); 
+			?> 
+			background-color: rgba(48,46,43,0.7);  
+		}
+	
+	.tooltip:HOVER .tooltip-data a { color: #fff; font-weight: normal; text-decoration: underline; background: transparent; }
+				
+		.tooltip:HOVER {}
+		.tooltip:HOVER .tooltip-data-pointer { display: block; }
+		.tooltip:HOVER .tooltip-data { <?php $css->inline_block(); $css->border_radius('0 4px 4px 4px'); $css->box_shadow('1px 1px 2px #999999'); ?> }
+		

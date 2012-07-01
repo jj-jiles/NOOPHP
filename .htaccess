@@ -1,0 +1,25 @@
+RewriteEngine On
+RewriteBase /noophp
+
+# php_flag display_errors on
+
+# This handles all requests coming in with the trailing slash and removes the slash
+RewriteCond %{REQUEST_URI} (.*)phpmy(.*) [NC]
+RewriteRule ^(.*) /error [R=301,L]
+
+<FilesMatch "\.(css|config)$">
+	SetHandler application/x-httpd-php
+</FilesMatch>
+
+
+# This handles all requests coming in with the trailing slash and removes the slash
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ $1 [R=301]
+
+
+# This handle all requests coming in without the trailer slash
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*) index.php?urd=$1&%{query_string}

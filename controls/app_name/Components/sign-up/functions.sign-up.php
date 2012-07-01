@@ -1,0 +1,3 @@
+<?
+//$session->create_account();
+?>

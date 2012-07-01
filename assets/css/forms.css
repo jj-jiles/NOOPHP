@@ -1,0 +1,300 @@
+<?php header('Content-type: text/css'); ?>
+<?php include(dirname(__FILE__) . '/class.css.php'); ?>
+
+.default-form-field { display: none!important; }
+
+
+/* ******
+* Generic Form Classes ****** */
+	form .note { color: <?= CSS_COLOR_ORANGE_MEDIUM; ?>; }
+	form i { padding: 4px; color: <?= CSS_COLOR_ORANGE_MEDIUM; ?>; }
+	
+	form em { font-size: 80%; }
+	form p { display: block; padding: 8px; }
+	form br { line-height: 180%; }
+	form p span.br { display: block; }
+	form label { margin: 0 10px 0 2px; }
+	form label.checkbox, form label.radio { padding-right: 20px; <? $css->inline_block(); ?> }
+	form .width-auto { width: auto; }
+
+	.form-buttons { padding: 12px 0 12px 0; text-align: left; }
+
+	input, select, textarea, .text, .password { 
+		background-repeat: no-repeat;
+		border: 1px solid #AAA;
+		color: #555;
+		font-size: 90%;
+		font-weight: normal;
+		padding: 10px;
+		width: 85%;
+		<?
+			$css->border_radius('3px');
+			$css->gradient('#ffffff','#f4f4f4');
+			$css->box_shadow('0px 1px 3px rgba(0, 0, 0, 0.1)');
+		?>
+	}
+
+textarea { height: 100px; }
+
+
+select {
+	-webkit-appearance: none;
+	-webkit-padding-end: 20px;
+	-webkit-padding-start: 2px;
+	-webkit-user-select: none;
+	
+	-moz-appearance: none!important;
+	-moz-padding-end: 20px;
+	-moz-padding-start: 2px;
+	-moz-user-select: none;
+	
+	
+	background-image: url(../images/select-arrow.png);
+	background-position: right center;
+	background-repeat: no-repeat;
+	font-weight: normal;
+	margin: 0;
+	min-width: 45px;
+	padding-right: 20px!important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap; 
+	<?
+		$css->border_radius('3px');
+		$css->gradient('#ffffff','#f4f4f4',array('../images/select-arrow.png','right center','no-repeat'));
+		$css->box_shadow('0px 1px 3px rgba(0, 0, 0, 0.1)');
+	?>
+}
+
+option {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	line-height: 38px; 
+}
+
+
+.credit-card-date { width: auto; }
+.date { width: auto; text-align: center; padding-left: 0; }
+
+input[type=checkbox],input[type=radio] { 
+	width: auto;
+	border: 0; 
+	height: auto;
+	line-height: auto;
+	vertica-align: middle;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	<?
+		$css->border_radius('0');
+		$css->box_shadow('0 0 0 transparent');
+	?>
+}
+
+input[type=file] { background: transparent; <? $css->box_shadow('0 0 0 transparent'); ?> }
+
+input[type=submit],input[type=button],input[type=reset] { 
+	vertical-align: baseline;
+	text-transform: uppercase;
+	font-style: italic;
+	text-shadow: 1px 1px 0 <?= CSS_COLOR_PRIMARY_LIGHT; ?>;
+	padding: 14px;
+	width: auto;
+	font-weight: bold;
+	color: <?= CSS_COLOR_BLUE_MEDIUM; ?>;
+	border-color: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+	<?
+		$css->border_radius('3px');
+		$css->box_shadow('0px 0px 6px '.CSS_COLOR_PRIMARY_MEDIUM);
+		$css->gradient(CSS_COLOR_PRIMARY_LIGHT,CSS_COLOR_PRIMARY_MEDIUM);
+	?>
+}
+		
+input[type=submit]:active,input[type=button]:active { 
+	width: auto;
+	<?
+		$css->border_radius('3px');
+		$css->box_shadow('0 0 0 '.CSS_COLOR_PRIMARY_MEDIUM);
+		$css->gradient(CSS_COLOR_PRIMARY_MEDIUM, CSS_COLOR_PRIMARY_LIGHT);
+	?>
+}
+
+
+#incl_state, #state, #country, #incl_country, #zip, #incl_zip, #city, #incl_city { width: auto; }
+#incl_zip, #zip { width: 75px; }
+
+#_ex_form_submit_button_ { margin-right: 40px; }
+
+
+
+
+#form-error, #form-message {
+	padding: 12px;
+	list-style: none;
+	background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>;
+	border: 2px solid <?= CSS_COLOR_ORANGE_MEDIUM; ?>;
+	text-align: left;
+	<?
+		$css->border_radius('5px');
+		$css->gradient(CSS_COLOR_PRIMARY_LIGHT, CSS_COLOR_PRIMARY_MEDIUM);
+		$css->box_shadow('0 2px 6px '.CSS_COLOR_PRIMARY_DARK);
+	?>
+}
+
+#form-message { 
+	color: <?= CSS_COLOR_SECONDARY_DARK; ?>;
+	background: <?= CSS_COLOR_BLUE_LIGHT; ?>;
+	border: 4px solid <?= CSS_COLOR_BLUE_MEDIUM; ?>;
+	padding: 20px 12px 20px 12px;
+	<? 
+		$css->box_shadow('0 2px 6px '.CSS_COLOR_PRIMARY_DARK);
+	?>
+}
+
+#form-message a { color: <?= CSS_COLOR_BLUE_DARK; ?>; text-shadow: 1px 1px 0 #f4f4f4; }
+
+#form-error li, #form-message li { text-align: left; padding: 8px 4px 8px 24px; margin: 0; }
+#form-error div, #form-error p { padding: 0; margin: 0; }
+#form-error li.form-error-header, #form-message li.form-error-header {
+	font-weight: bold;
+	font-size: 120%;
+	padding: 0 0 12px 0;
+}
+	
+
+
+#formsBody { width: 450px;}
+form p.buttons { width: 88%; text-align: left; }
+form p.buttons input { margin: 0 12px 0 0; }
+
+
+
+.radio-span, .checkbox-span {
+	position: relative;
+	overflow: hidden;
+	padding: 0!important;
+	margin: 2px 2px 2px 0;
+	height: 35px;
+	width: auto;
+	border: 1px solid <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+	background: <?= CSS_COLOR_PRIMARY_LIGHT; ?>;
+	<? $css->inline_block(); $css->border_radius('4px'); ?>
+}
+
+.radio-span i.el, .checkbox-span i.el {
+	width: 20px;
+	height: 35px;
+	line-height: 25px;
+	vertical-align: middle;
+	text-align: center;
+	position: relative;
+	top: -1px;
+	background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+	<? $css->inline_block(); $css->border_radius('4px 0 0 4px'); ?>
+}
+
+.radio-span label, .checkbox-span label {
+	height: 45px;
+	line-height: 36px;
+	vertical-align: middle;
+	position: relative;
+	top: 0;
+	left: 0;
+	padding-left: 5px;
+	margin: 0!important; 
+	<? $css->inline_block(); ?> 
+}
+.radio-span:HOVER label, .checkbox-span:HOVER label { background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>; }
+/*
+input[type=radio] { position: relative; top: 0; *top: 2px; }
+*/
+
+input[type=checkbox] { position: relative; top: 3px; }
+
+#registration-form-dim { 
+	position: absolute; 
+	top: 0; 
+	right: 0; 
+	left: 0; 
+	z-index: 10000; 
+	width: 100%; 
+	background: #000; 
+	<?php $css->background_opacity('99'); ?>
+	background: rgba(0,0,0,0.5);
+}
+#registration-form-overlay-wrapper {
+	padding: 12px;
+	width: auto;
+	*width: 504px; 
+	height: auto;  
+	background: <?= CSS_COLOR_SECONDARY_DARK; ?>;
+	position: absolute;
+	left: 50%;
+	margin: 75px 0 0 0;
+	<?php $css->border_radius('12px'); ?>
+	<?php $css->box_shadow('0 0 8px #444'); ?>
+}
+#registration-form-overlay-wrapper .clear { font-size: 0px!important; height: 0px; }
+
+.overlay-form-content {
+	width: auto;
+	height: auto;
+	overflow: hidden;
+	padding: 20px 12px 12px 12px;
+	background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+	<?php $css->border_radius('6px'); ?>
+}
+
+.overlay-form-content.social-networks { height: auto; margin-top: 12px; }
+
+.overlay-form-content.two-column {
+	width: auto;
+	height: auto;
+	overflow: hidden;
+	padding: 20px 12px 12px 12px;
+	background: <?= CSS_COLOR_PRIMARY_MEDIUM; ?>;
+	<?php $css->border_radius('6px'); ?>
+}
+
+.overlay-form-content.two-column input[type=text],
+.overlay-form-content.two-column input[type=password] { width: 95%; }
+
+.overlay-form-content.left-column { margin-right: 20px; }
+
+
+	.overlay-form                { width: 100%; }
+	.overlay-form .buttons       { text-align: right; margin: 12px 0 12px 0; width: 100%; }
+	.overlay-form .buttons input { margin: 0 5px 0 5px; <? $css->box_shadow('0 0 5px #888'); ?> }
+	.overlay-form h2             { margin: 0; padding: 0 6px 6px 4px; }
+	.overlay-form p              { padding: 0 0 2px 4px; }
+	.overlay-form .align-right   { width: 90%; }
+
+	.overlay-form .radio-span, .overlay-form .checkbox-span {
+		border: 1px solid <?= CSS_COLOR_PRIMARY_DARK; ?>;
+	}
+	
+	#login-message .form-elements { width: 480px; }
+	
+	.login_register-message        { display: none; height: 350px; color: <?= CSS_COLOR_SECONDARY_DARK; ?>; padding: 0; }
+	.login_register-message .form-elements { height: 224px; }
+	.login_register-message p      { background: #90ccd3; font-weight: bold; font-size: <?= CSS_FONT_SIZE_LARGE; ?>; padding: 12px; <?php $css->border_radius('8px'); ?> }
+	.login_register-message p span { display: block; padding: 6px 12px 6px 12px; font-size: <?= CSS_FONT_SIZE_LARGE; ?>; font-weight: normal; }
+	.login_register-message p span a { color: <?= CSS_COLOR_SECONDARY_DARK; ?>; }
+	.login_register-message .buttons { margin: 20px 0 40px 0; }
+	
+	
+	.overlay-form .left-column.buttons {  text-align: left; width: 48%; }
+	.overlay-form .right-column.buttons {  text-align: right; width: 48%; }
+	
+	#overlay-login-form { width: 480px; height: 250px; }
+
+
+p.buttons.update-button { padding: 0 24px 18px 0; }
+p.buttons.update-button input { margin: 0; }
+p.close-project { padding: 18px 24px 18px 0; margin: 0; }
+p.close-project input.manage-project-close-button { margin: 0; }
+
+p.buttons.hide-details { width: 100%; background: #fafafa; padding: 0; padding: 12px 0 18px 0; margin-bottom: -6px; <? $css->border_radius('0 0 6px 6px'); ?> }
+p.buttons.hide-details input { font-size: <?= CSS_FONT_SIZE_SMALL; ?>; }
+
+

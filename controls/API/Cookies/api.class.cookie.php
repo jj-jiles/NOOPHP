@@ -1,6 +1,6 @@
 <?
 
-class Cookie_System {
+class cookie {
 	
 	
 	## ##
@@ -8,7 +8,7 @@ class Cookie_System {
 	## instantiates the object
 	##
 	## ##
-		function Cookie_System() { return true; }
+		function __construct() { return true; }
 	## ##
 	##
 	## end
@@ -28,11 +28,10 @@ class Cookie_System {
 	## Need to do this because a domain doesn't work on local installs of site
 	##
 	## ##
-	function domain() {
-		global $config;
-		$domain = ($config->app->is_live == 'N') ? '' : $config->app->domain;
-		return $domain;
-	}
+		static public function domain() {
+			$domain = (config::$app->is_live == 'N') ? '' : config::$app->domain;
+			return $domain;
+		}
 	## ##
 	##
 	## end
@@ -51,8 +50,7 @@ class Cookie_System {
 	## Sets a permanent cookie to bypass login
 	##
 	## ##
-		function remember_me() {
-			global $app, $config, $session;
+		static public function remember_me() {
 			
 			if ( isset($_SESSION['user_id']) && $session->rs ) :
 				
@@ -64,11 +62,11 @@ class Cookie_System {
 				
 				# set the cookie
 				setcookie(
-					$config->cookie->remember, 
+					config::$cookie->remember, 
 					$_SESSION['user_id'] . '|' . $session->rs, 
 					$time, 
 					"/", 
-					$this->domain()
+					self::domain()
 				);
 			endif;
 		}
@@ -91,17 +89,16 @@ class Cookie_System {
 	## 	set the session cookie
 	##
 	## ##
-		function set_session() {
-			global $config, $app, $session;
+		static public function set_session() {
 			
-			$time = ($config->cookie->lifespan == 0)? 0 : time()+$config->cookie->lifespan;
+			$time = (config::$cookie->lifespan == 0)? 0 : time()+config::$cookie->lifespan;
 			
 			setcookie(
-				$config->cookie->session, 
+				config::$cookie->session, 
 				$_SESSION['user_id'] . '|' . $session->rs, 
 				$time, 
 				"/", 
-				$this->domain()
+				self::domain()
 			);
 		}
 	## ##
@@ -124,13 +121,12 @@ class Cookie_System {
 	## 	or
 	##		/component
 	## ##
-	function destroy() {
-		global $config;
+	static public function destroy() {
 		session_destroy();
-		setcookie($config->cookie->general, '', time()-3600, "/", $this->domain()); 
-		setcookie($config->cookie->remember, '', time()-3600, "/", $this->domain());
-		setcookie($config->cookie->session, '', time()-3600, "/", $this->domain()); 
+		setcookie(config::$cookie->general, '', time()-3600, "/", self::domain()); 
+		setcookie(config::$cookie->remember, '', time()-3600, "/", self::domain());
+		setcookie(config::$cookie->session, '', time()-3600, "/", self::domain()); 
 	}
 }
-$cookie = new Cookie_System;
+$cookie = new cookie;
 ?>

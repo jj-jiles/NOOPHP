@@ -54,7 +54,7 @@ class url {
 		
 		if ( isset($_SESSION['profile']) ) :
 			$dash = '/account';
-			$url = self::$cfg->root . '/' . $dash;
+			$url = self::$cfg->root . $dash;
 		else :
 			$url = self::$cfg->root . '/sign-in';
 		endif;

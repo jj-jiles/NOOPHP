@@ -21,8 +21,8 @@ class app extends app_extends {
 	## If the user is not viewing the home page, add "Home" link to the navigation
 	##
 	## ##
-		public function home_link() {
-			if ( !$this->is_home() ) :
+		static public function home_link() {
+			if ( !self::is_home() ) :
 				echo '<li><a href="' . url::root() . '">home</a></li>';
 			endif;
 		}

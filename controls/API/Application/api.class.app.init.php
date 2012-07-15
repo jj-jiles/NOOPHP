@@ -1,7 +1,7 @@
 <?php
-include_once( path::app() . '/Profile/class.profile.php');
-include_once( path::app() . '/Cookies/class.cookie.php');
-include_once( path::app() . '/Session/class.session.php');
+include_once( path::app()      . '/Profile/class.profile.php');
+include_once( path::controls() . '/API/Cookies/api.class.cookie.php');
+include_once( path::app()      . '/Session/class.session.php');
 
 class app_extends extends API_app {	
 	
@@ -37,6 +37,11 @@ class app_extends extends API_app {
 			# user is attempting to sign in and is already logged in
 			if ( session::is_logged_in() && request::component() == 'sign-in' ) {
 				header('Location: ' . url::dashboard());
+			
+			#
+			# user is attempting to sign in and is already logged in
+			} else if ( session::is_logged_in() && (request::component() == 'sign-out' || request::component() == 'logout' ) ) {
+				session::logout();
 			
 			#
 			# user has not logged, is not logging and this page requires a session

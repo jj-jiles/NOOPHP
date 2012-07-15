@@ -13,6 +13,7 @@ class session {
 	private static $page_request;
 	private static $login_message;
 	private static $registration_message = '';
+	private static $sess;
 	
 	function _construct() {
 		
@@ -143,7 +144,6 @@ class session {
 			
 			## logout the user
 			static public function logout() {
-			
 				header("Content-Type: text/html; charset=WINDOWS-1252");
 				header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 				header( "Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT" );
@@ -154,7 +154,7 @@ class session {
 				#
 				# remove every cookie stored on the device for this site
 				foreach ($_COOKIE as $key=>$val) :
-					setcookie($key, '', time()-72000, "/", $cookie->domain()); 
+					setcookie($key, '', time()-72000, "/", cookie::domain()); 
 				endforeach;
 				#
 				# unset every session variable stored
@@ -281,8 +281,8 @@ class session {
 	
 	
 	
-	static private function encode_password($pass) {
-		$pass = md5( cPRE_SALT.$pass.cPOST_SALT );
+	static public function encode_password($pass) {
+		$pass = md5( config::$salts->password.$pass.config::$salts->password );
 		return $pass;
 	}
 	
@@ -325,26 +325,23 @@ class session {
 				
 				$row  = db::to_array($sql);
 				$cnt  = db::num_rows();
-				
 				$is_user       = false;
-				$time_locked   = 0;
 				$lock_interval = config::$app->account_lock_out_interval;
+				$time_locked   = $lock_interval--;
 				
 				if ($cnt > 0 ) :
+					$row = $row[0];
 					$is_user = true;
 					
-					$row->locked_time = 0;
-					$row->is_locked   = 0;
+					$is_verified = ($row['account_verified'] == 'N') ? false : true;
+					$status_good = ($row['account_status'] == 'N')   ? false : true;
+					$is_locked   = ($row['is_locked'] == 'N')        ? false : true;
 					
-					$is_verified = ($row->account_verified == 0) ? false : true;
-					$status_good = ($row->account_status == 0)   ? false : true;
-					
-					if ( $row->locked_time > 0 ) :
-						$time_locked = (time()-$row->locked_time)/60;
+					if ( $row['locked_time'] > 0 ) :
+						$time_locked = (time()-$row['locked_time'])/60;
 					endif;
 					
-					$is_locked = ($row->is_locked > 0 && $time_locked <= $lock_interval) ? true : false;
-				
+					$is_locked = (!$is_locked && $time_locked <= $lock_interval) ? true : false;
 				if ( (@$is_user && !$is_verified) && !self::is_verifying() ) :
 					if ( request::component() != 'ajax') :
 						self::verify_account($row);
@@ -356,7 +353,7 @@ class session {
 				elseif ( (@$is_user && !$status_good) && !self::is_verifying() ) :
 					self::$login_message = "error:::" . _STRING_LOGIN_ERROR__ACCOUNT_DISABLED_;
 					
-				elseif (  @$is_user && @$is_locked && $time_locked <= $lock_interval ) :				
+				elseif (  @$is_user && @$is_locked && ($time_locked <= $lock_interval) ) :				
 					self::$login_message = "error:::" . _STRING_LOGIN_ERROR__LOCKED_OUT_;
 				
 				else :
@@ -373,10 +370,10 @@ class session {
 					# ######
 					#
 					# is the user logging in using the traditional login form ###### #
-					if ( isset(form::$posts->incl_sign_in) ) :
+					if ( isset(form::$posts->incl_email) ) :
 						#
 						# User is:
-						switch (form::$posts->incl_sign_in) :
+						switch (form::$posts->incl_email) :
 							# verifying their account
 							case 'verify-account' :
 								self::verify_account($row);
@@ -384,7 +381,13 @@ class session {
 							
 							# just logging in
 							default :
-								header('Location: ' . url::root() . '/' . self::$sess->account_type_long . '/dashboard');
+								$ref = request::$uri['referer'];
+								if ( empty($ref) ) {
+									$ref = '/account';
+								} else {
+									$ref = '/' . $ref;
+								}
+								header('Location: ' . url::root() . $ref);
 								exit();
 								break;
 						endswitch;
@@ -426,23 +429,23 @@ class session {
 		
 		$content      = request::content();
 		$url_has_code = (bool) !empty($content);
-		$db_has_code  = (bool) !empty($data->activation_key);
+		$db_has_code  = (bool) !empty($data['activation_key']);
 		$has_content  = (bool) !empty($content);
-		$codes_match  = (bool) (@$url_has_code && $content == $data->activation_key);
+		$codes_match  = (bool) (@$url_has_code && $content == $data['activation_key']);
 		
-		if ( (@$db_has_code && $codes_match) || ($codes_match && $data->account_verified == 0) ) :
+		if ( (@$db_has_code && $codes_match) || ($codes_match && $data['account_verified'] == 'N') ) :
 			self::set_session_variables($data);
-			$sql = "UPDATE accounts SET activation_key = '', account_verified = '1', account_status = '1' WHERE id = $data->id";
+			$sql = "UPDATE accounts SET activation_key = '', account_verified = 'Y', account_status = '1' WHERE id = $data[id]";
 			$sql = db::query($sql);
 			db::error();
-			header('Location: ' . url::root() . '/' . self::$sess->account_type_long . '.php/profile');
+			header('Location: ' . url::root() . '/' . request::$uri['referer']);
 			exit();
 			
-		elseif ( !$url_has_code && $data->account_verified == 0 ) :
+		elseif ( !$url_has_code && $data['account_verified'] == 'Y' ) :
 		
-		elseif ( $data->account_verified == 1) :
+		elseif ( $data['account_verified'] == 'Y') :
 			self::set_session_variables($data);
-			header('Location: ' . url::root() . '/' . self::$sess->account_type_long . '.php/dashboard');
+			header('Location: ' . url::root() . '/' . request::$uri['referer']);
 			exit();
 		
 		endif;
@@ -605,60 +608,19 @@ class session {
 		
 		else :
 			self::$sess = (object) array();
-			self::$sess->id                = $row->id;
-			self::$sess->name              = $row->first.' '.$row->last;
-			self::$sess->first             = $row->first;
-			self::$sess->last              = $row->last;
-			self::$sess->company           = $row->company;
-			self::$sess->website           = $row->website;
-			self::$sess->address           = $row->address;
-			self::$sess->city              = $row->city;
-			self::$sess->state             = $row->state;
-			self::$sess->zip               = $row->zip;
-			self::$sess->country           = $row->country;
-			self::$sess->phone             = $row->phone;
-			self::$sess->email             = $row->email;
-			self::$sess->type              = $row->account_type;
-			self::$sess->mode              = ( $row->account_type == 'B' )?'D':$row->account_type;
-			self::$sess->account_type      = self::$sess->mode;
-			self::$sess->credits           = $row->credits;
-			self::$sess->rs                = $row->random_salt;
-			self::$sess->account_verified  = $row->account_verified;
-			self::$sess->account_status    = $row->account_status;
-			self::$sess->activation_key    = $row->activation_key;
 			
-			self::$sess->is_enterprise     = $row->is_enterprise;
-			self::$sess->enterprise_url    = $row->enterprise_url;
-			self::$sess->enterprise_logo   = $row->enterprise_logo;
-			
-			self::$sess->account_type_long = ( self::$sess->account_type == 'C' || self::$sess->account_type == 'B' ) ? 'client' : 'developer';
-			self::$sess->account_type_long = ( self::$sess->account_type == 'A' ) ? 'administrator' : self::$sess->account_type_long;
-			
+			foreach ( $row as $key=>$val) {
+				self::$sess->$key = $val;
+			}
+			print_r(self::$sess);
 			$_SESSION['profile'] = self::$sess;
 		
 			unset($_SESSION['profile']->password);
 			
-			$_SESSION['user_email']     = $_SESSION['profile']->email;
-			$_SESSION['user_id']        = $_SESSION['profile']->id;
-			$_SESSION['user_name']      = $_SESSION['profile']->name;
+			$_SESSION['user_email']     = self::$sess->email;
+			$_SESSION['user_id']        = self::$sess->id;
+			$_SESSION['user_name']      = self::$sess->name;
 			$_SESSION['logged_in_time'] = time();
-			
-			if ( isset($row->coupon_id) && !empty($row->coupon_id) ) :
-			
-				$sql = "SELECT unlimited_credits, unlimited_date_start, unlimited_date_end FROM coupon_codes as c"
-					. " WHERE"
-					. " id = $row->coupon_id"
-					. " AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%c-%d'), DATE_FORMAT(c.unlimited_date_start, '%Y-%c-%d')) >= 0"
-					. " AND DATEDIFF(DATE_FORMAT(c.unlimited_date_end,'%Y-%c-%d'), DATE_FORMAT(NOW(), '%Y-%c-%d')) >= 0";
-				$sql = $db->query($sql);
-				
-				$db->error();
-				
-				if ( $db->num_rows() > 0 ) :
-					$_SESSION['profile']->credits = 'Unlimited';
-				endif;
-				
-			endif;
 			
 			return true;
 			

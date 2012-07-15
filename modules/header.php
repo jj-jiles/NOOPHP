@@ -12,12 +12,14 @@
 <body>
 <div class="content">
 	<ul class="top-navigation">
-		<?php if ( !app::is_home() ) { ?>
-		<li><a href="<?php echo url::root(); ?>">Home</a></li>
-		<?php } ?>
+		<?php echo app::home_link(); ?>
 		<li><a href="<?php echo url::root(); ?>/test">Test</a></li>
 		<li><a href="<?php echo url::root(); ?>/test-form">A Form</a></li>
-		<li><a href="<?php echo url::root(); ?>/account">Account (Session Protected)</a></li>
+		<?php if ( session::is_logged_in() ) { ?>
+			<li><a href="<?php echo url::root(); ?>/sign-out">Logout</a></li>
+		<?php } else { ?>
+			<li><a href="<?php echo url::root(); ?>/account">Account (Session Protected)</a></li>
+		<?php } ?>
 		<li><a href="https://github.com/WretchedLocket/NOOPHP">Github Page</a></li>
 	</ul>
 	<div class="clear"></div>

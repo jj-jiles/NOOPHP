@@ -1,11 +1,11 @@
 <?php
 class component {
 	
-	function component() {
+	function __construct() {
 		return true;
 	}
 	
-	function _include() {
+	static public function _include() {
 		$content   = request::content();
 		$component = request::component();
 		
@@ -13,7 +13,7 @@ class component {
 		include_once( path::views() . '/' . $component . '/' . $content . '.php');
 	}
 	
-	function _path() {
+	static public function _path() {
 		return path::views() . '/'.request::component();
 	}
 	

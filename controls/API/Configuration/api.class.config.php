@@ -37,7 +37,8 @@ class config {
 				'meta_title'       => _APP_META_TITLE_,
 				'meta_description' => _APP_META_DESCRIPTION_,
 				'meta_keywords'    => _APP_META_KEYWORDS_,
-				'aes_password'     => _APP_AES_PASSWORD_
+				'aes_password'     => _APP_AES_PASSWORD_,
+				'account_lock_out_interval' => _APP_ACCOUNT_LOCK_OUT_INTERVAL_
 			);
 			
 			self::$url     = (object) array();

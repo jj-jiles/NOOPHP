@@ -1,12 +1,5 @@
 <?php
 defined( '_VALID_REFERENCE' ) or die( 'Direct Access to this location is not allowed.' );
-#
-#
-# corrects time zone error for the live Commerce server
-	date_default_timezone_set('America/Chicago');
-# end
-#
-#
 
 /* *******************************************************************************************
 *
@@ -398,8 +391,9 @@ class security {
 		include_once( $dir . '/Cache/api.class.cache.php');
 		include_once( $dir . '/Pages/api.class.pages.php');
 		include_once( $dir . '/Components/api.class.components.php');
+		include_once( $dir . '/Application/api.class.app.init.php');
 		$dir = dirname(dirname(dirname(__FILE__)));
-		include_once( $dir . '/' . config::$app->name . '/Application/class.app.init.php');
+		include_once( $dir . '/' . config::$app->name . '/Application/class.app.extends.php');
 	##
 
 ##

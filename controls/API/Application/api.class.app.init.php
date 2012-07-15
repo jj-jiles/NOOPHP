@@ -112,52 +112,6 @@ class app_extends extends API_app {
 	
 	## ##
 	##
-	## determines if the user is viewing an image
-	##
-	## ##	
-		public function is_viewing_image() {
-			$component = request::component();
-			$comp = (bool) ( $component == 'i' );
-			return $comp;
-		}
-	## ##
-	##
-	## end
-	##
-	## ##
-	
-	
-	
-	
-	
-	
-	
-	
-	## ##
-	##
-	## If the user viewing the home page, add "Home" link to the navigation
-	##
-	## ##
-		public function home_link() {
-			if ( !$this->is_home() ) :
-				echo '<li><a href="' . url::root() . '">home</a></li>';
-			endif;
-		}
-	## ##
-	##
-	## end
-	##
-	## ##
-	
-	
-	
-	
-	
-	
-	
-	
-	## ##
-	##
 	## Includes the header when needed
 	##
 	## ##
@@ -378,7 +332,6 @@ class app_extends extends API_app {
 
 #
 # $app extensions
-	include_once( path::app() . '/Application/class.app.extension.php');
 	include_once( path::app() . '/Uploads/class.uploads.php');
 	include_once( path::app() . '/Email/class.email.php');
 	include_once( path::app() . '/Pagination/class.pagination.php');

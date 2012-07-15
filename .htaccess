@@ -1,25 +1,56 @@
 RewriteEngine On
-RewriteBase /noophp
 
-# php_flag display_errors on
+# ####
+# If you are running a test environment under subfolder, alter the directory name accordingly
+# Examples:
+#    Application in subfolder of a subdomain or TLD (http://domain.com/directoryname/)
+#        RewriteBase /directoryname
+#
+#    Application at subdomain or TLD (http://domain.com or http://noophp.domain.com)
+#        RewriteBase /
+#
+	RewriteBase /noophp
+#
+# ####
 
+# ####
+# If you prefer to leave errors on during testing or debugging
+#
+# 	php_flag display_errors on
+
+# ####
 # This handles all requests coming in with the trailing slash and removes the slash
-RewriteCond %{REQUEST_URI} (.*)phpmy(.*) [NC]
-RewriteRule ^(.*) /error [R=301,L]
+# prevents the application from translating the last slash as part of the request
+#
+	RewriteCond %{REQUEST_URI} (.*)phpmy(.*) [NC]
+	RewriteRule ^(.*) /error [R=301,L]
+#
+# ####
 
-<FilesMatch "\.(css|config)$">
-	SetHandler application/x-httpd-php
-</FilesMatch>
+# ####
+# Allows CSS files to be processed by the PHP processor
+#
+	<FilesMatch "\.(css|config)$">
+		SetHandler application/x-httpd-php
+	</FilesMatch>
+#
+# ####
 
-
+# ####
 # This handles all requests coming in with the trailing slash and removes the slash
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/$ $1 [R=301]
+# prevents the application from translating the last slash as part of the request
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)/$ $1 [R=301]
+#
+# ####
 
-
-# This handle all requests coming in without the trailer slash
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !/$
-RewriteRule ^(.*) index.php?urd=$1&%{query_string}
+# ####
+# Hand the incoming request over to base index.php file
+#
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} !/$
+	RewriteRule ^(.*) index.php?urd=$1&%{query_string}
+#
+# ####

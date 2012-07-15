@@ -9,6 +9,36 @@ class app extends app_extends {
 		parent::__construct();
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	## ##
+	##
+	## If the user is not viewing the home page, add "Home" link to the navigation
+	##
+	## ##
+		public function home_link() {
+			if ( !$this->is_home() ) :
+				echo '<li><a href="' . url::root() . '">home</a></li>';
+			endif;
+		}
+	## ##
+	##
+	## end
+	##
+	## ##
+	
+	
+	
+	
+	
+	
+	
+		
 	## ##
 	##
 	## Returns the Page Title of the page request
@@ -110,51 +140,6 @@ class app extends app_extends {
 			echo $this->alert_message;
 			echo '</div>';
 		endif;
-	}
-	## ##
-	##
-	## end
-	##
-	## ##
-	
-	
-	
-	
-	
-	
-	
-	
-	## ##
-	##
-	## Outputs Open Graph meta data if Open Graph infor is required
-	##
-	## ##
-	static public function echo_opengraph() {
-		
-		if ( isset(config::$app->fb_opengraph_id) && !empty(config::$app->fb_opengraph_id) ) {
-			
-			$image_url      = '';
-			$the_url        = url::root();
-			$app_page_title = $this->page_title();
-			$page_title     = $app_page_title;
-			
-			$is_image = ( request::component() == 'i' ) ? true : false;
-			
-			if ( @$is_image ) : 		
-				$the_url    .= '/' . $this->urd;
-				$image_url   = '<meta property="og:image" content="' . $img->image_url . '" />';
-				$page_title  = $img->title;
-				$page_title .= ' | ' . str_replace(' | ' . config::$app->meta_title, '', $app_page_title) . ' [Pic]';
-			endif;
-			
-			echo '<meta property="og:title" content="' . $page_title . '" />'
-				. '<meta property="og:type" content="website" />'
-				. '<meta property="og:url" content="' . $the_url . '" />'
-				. $image_url
-				. '<meta property="og:site_name" content="' . config::$app->title . '" />'
-				. '<meta property="fb:app_id" content="' . config::$app->fb_opengraph_id . '" />'
-				. '<meta property="og:description" content="'. config::$app->title . ' ::: ' . config::$app->meta_description . '"/>';
-		}
 	}
 	## ##
 	##

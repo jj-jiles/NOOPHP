@@ -13,12 +13,13 @@
 			form::$validate->validate_email(form::$posts->incl_email);
 		} ?>
 	<?php form::echo_error(); ?>
+	<p class="note"><em>* Required</em></p>
 	<p>
-		Name: <br />
+		Name<i>*</i>: <br />
 		<?php form::input('incl_name'); ?>
 	</p>
 	<p>
-		Email: <br />
+		Email<i>*</i>: <br />
 		<?php form::input('incl_email'); ?>
 	</p>
 	<p>

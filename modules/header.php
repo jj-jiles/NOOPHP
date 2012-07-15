@@ -21,5 +21,3 @@
 		<li><a href="https://github.com/WretchedLocket/NOOPHP">Github Page</a></li>
 	</ul>
 	<div class="clear"></div>
-	
-	<?php echo base64_encode(rand().rand()); ?>

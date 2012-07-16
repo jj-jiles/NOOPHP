@@ -655,13 +655,13 @@ class db {
 	* for 'field_name' in the first row
 	* 
 	**************************************************************** */
-	static public function fetch_row ( $fieldName ) {
-		if (is_numeric( $fieldName )) {
-			$fieldValue=mysql_result( self::$result, $fieldName );
+	static public function fetch_row ( $field_name ) {
+		if (is_numeric( $field_name )) {
+			$field_value=mysql_result( self::$result, $field_name );
 		} else {
-			$fieldValue=mysql_result( self::$result, 0, $fieldName );
+			$field_value=mysql_result( self::$result, 0, $field_name );
 		}
-		return $fieldValue;
+		return $field_value;
 	}
 	/* ****************************************************************
 	* end :::
@@ -683,11 +683,11 @@ class db {
 	* row, first field
 	* 
 	**************************************************************** */
-	static public function fetch_value ( $sql='', $fieldName='', $row='' ) {
+	static public function fetch_value ( $sql='', $field_name='', $row='' ) {
 		$i=0;
-		$fieldValue = false;
+		$field_value = false;
 
-		if (empty($fieldName)) { $fieldName = 0; }
+		if (empty($field_name)) { $field_name = 0; }
 		if (empty($row)) { $row = 0; }
 		$ret = array();
 		$sql = self::query($sql);
@@ -699,10 +699,10 @@ class db {
 				$i++;
 			}
 				
-			$fieldValue=$ret[$row][$fieldName];
+			$field_value=$ret[$row][$field_name];
 		}
 
-		return ($fieldValue);
+		return ($field_value);
 	}
 	/* ****************************************************************
 	* end :::

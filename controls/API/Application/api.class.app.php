@@ -424,7 +424,7 @@ abstract class API_app {
 	# determines if the browser agent is a mobile device
 	# returns true/false
 	#
-		public function isMobile( $additional_agents='' ) {
+		public function is_mobile( $additional_agents='' ) {
 			global $config;
 					
 			include_once( dirname(__FILE__) . '/browser-agent/xbd.php');

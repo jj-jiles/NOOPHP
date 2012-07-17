@@ -55,11 +55,6 @@ class path {
 		return $path;
 	}
 	
-	
-	static public function legacy_includes() {
-		return self::$cfg->root . '/includes/common/pages/';
-	}
-	
 }
 
 $path = new path();

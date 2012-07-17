@@ -706,9 +706,9 @@ class form {
 	********************************************************** */
 		
 		# open tag
-		static public function start($params='') {
+		static public function start($options='') {
 			
-			self::createVariables();
+			self::create_variables();
 			
 			$attribs="";
 			
@@ -716,8 +716,8 @@ class form {
 			$name="";
 			
 			# loop params and create the desired vars
-			if (is_array($params)) :
-				foreach ($params as $key=>$val) :
+			if (is_array($options)) :
+				foreach ($options as $key=>$val) :
 					$$key = $val;
 					$attribs .= " {$key}=\"{$val}\"";				
 				endforeach;
@@ -992,7 +992,7 @@ class form {
 		return self::$post->referer($set=false);
 	}
 	
-	static public function in2Db($dbName='', $dbtable='', $uniqueKey='') {
+	static public function in2db($dbName='', $dbtable='', $uniqueKey='') {
 		return self::$database->insert($dbName='', $dbtable='', $uniqueKey='');
 	}
 	

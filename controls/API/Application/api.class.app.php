@@ -457,11 +457,6 @@ abstract class API_app {
 			endif;
 			
 		}
-		
-		# ##
-		# Alias for isMobile()
-		public function is_mobile( $x='' ) { $x = $x; return self::isMobile( $x ); }
-		# ####
 	# ### #
 }
 ?>

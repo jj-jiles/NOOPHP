@@ -10,12 +10,13 @@ class url {
 	
 	
 	static public function absolute() {
+		$absolute_url = config::make_full_url();
 		return self::$cfg->absolute;
 	}
 	
 	
-	static public function login() {
-		return self::$cfg->login;
+	static public function ajax() {
+		return self::$cfg->ajax;
 	}
 	
 	
@@ -24,8 +25,24 @@ class url {
 	}
 	
 	
+	static public function component() {
+		$url = self::$cfg->root . '/' . request::component();
+		return $url;
+	}
+	
+	
 	static public function controls() {
 		return self::$cfg->controls;
+	}
+	
+	
+	static public function error() {
+		return self::$cfg->error;
+	}
+	
+	
+	static public function login() {
+		return self::$cfg->login;
 	}
 	
 	
@@ -41,31 +58,6 @@ class url {
 	
 	static public function views() {
 		return self::$cfg->views;
-	}
-	
-	
-	static public function component() {
-		$url = self::$cfg->root . '/' . request::component();
-		return $url;
-	}
-	
-	
-	static public function dashboard() {
-		
-		if ( isset($_SESSION['profile']) ) :
-			$dash = '/account';
-			$url = self::$cfg->root . $dash;
-		else :
-			$url = self::$cfg->root . '/sign-in';
-		endif;
-		
-		return $url;
-	}
-	
-	static public function ajax() {
-		
-		$url = self::$cfg->root . '/ajax';
-		return $url;
 	}
 }
 

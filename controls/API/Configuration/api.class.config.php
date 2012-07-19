@@ -147,20 +147,20 @@ class config {
 			}
 			
 			
-			$root_path = dirname(dirname(dirname(dirname(__FILE__))));
+			$root_path = self::make_absolute_path();
 			
 			#
 			# general app variables
+			self::$app->analytics_code   = isset(self::$app->analytics_code)   ? self::$app->analytics_code : '';
 			self::$app->domain           = $_SERVER['HTTP_HOST'];
-			self::$app->name             = self::$app->name;
-			self::$app->title            = self::$app->title;
+			self::$app->is_live          = isset(self::$app->status_is_live)   ? self::$app->status_is_live : '';
+			self::$app->is_active        = isset(self::$app->status_is_active) ? self::$app->status_is_active : '';
+			self::$app->key_google_maps  = isset(self::$app->key_google_maps)  ? self::$app->key_google_maps: '';
 			self::$app->meta_title       = self::$app->meta_title;
 			self::$app->meta_description = self::$app->meta_description;
 			self::$app->meta_keywords    = self::$app->meta_keywords;
-			self::$app->analytics_code   = isset(self::$app->analytics_code)   ? self::$app->analytics_code : '';
-			self::$app->key_google_maps  = isset(self::$app->key_google_maps)  ? self::$app->key_google_maps: '';
-			self::$app->is_live          = isset(self::$app->status_is_live)   ? self::$app->status_is_live : '';
-			self::$app->is_active        = isset(self::$app->status_is_active) ? self::$app->status_is_active : '';
+			self::$app->name             = self::$app->name;
+			self::$app->title            = self::$app->title;
 			
 			self::$app->allowed_login_failures    = isset(self::$app_allowed_login_failures) ? self::$app_allowed_login_failures : '5';
 			self::$app->account_lock_out_interval = isset(self::$app_allowed_login_failures) ? self::$app_account_lock_out_interval : '20';
@@ -185,23 +185,24 @@ class config {
 			
 			
 			self::$url = (object) array(
-				'root'     => $root_url,
-				'assets'   => $root_url  . '/assets',
-				'views'    => $root_url  . '/views',
-				'modules'  => $root_url  . '/modules',
-				'controls' => $root_url  . '/controls',
 				'ajax'     => $root_url  . '/ajax',
+				'assets'   => $root_url  . '/assets',
+				'controls' => $root_url  . '/controls',
+				'error'    => $root_url  . '/error',
 				'login'    => $root_url  . '/sign-in',
-				'error'    => $root_url  . '/error'
+				'modules'  => $root_url  . '/modules',
+				'root'     => $root_url,
+				'views'    => $root_url  . '/views'
 			);
 			
 			self::$path = (object) array(
-				'root'     => $root_path,
-				'views'    => $root_path . '/views',
-				'modules'  => $root_path . '/modules',
+				'ajax'     => $root_path  . '/ajax',
+				'app'      => $root_path . '/controls/' . self::$app->name,
 				'assets'   => $root_path . '/assets',
 				'controls' => $root_path . '/controls',
-				'app'      => $root_path . '/controls/' . self::$app->name
+				'modules'  => $root_path . '/modules',
+				'root'     => $root_path,
+				'views'    => $root_path . '/views'
 			);
 			
 			if ( @self::$admin->local ) {
@@ -350,7 +351,7 @@ class config {
 	 ***************************************************** */
 	 
 	 
-	 function make_full_url() {	
+	 static public function make_full_url() {	
 		if ( isset($_SERVER['SCRIPT_NAME']) ) {
 			$sub_dir = trim($_SERVER['SCRIPT_NAME'], '/');
 			$sub_dir_array = explode('/',$sub_dir);
@@ -381,7 +382,13 @@ class config {
 	 
 	 
 	 
-	 function analytics_code($return=false) {
+	 static public function make_absolute_path() {
+		 return dirname(dirname(dirname(dirname(__FILE__))));
+	 }
+	 
+	 
+	 
+	 static public function analytics_code($return=false) {
 		 self::$app->analytics_code = (self::$app->is_live == 'Y') ? self::$app->analytics_code : '';
 		 if ( !$return ) {
 			 echo self::$app->analytics_code;

@@ -151,6 +151,8 @@ class session {
 				header( "Cache-Control: post-check=0, pre-check=0", false );
 				header( "Pragma: no-cache" );
 				
+				cookie::destroy();
+				
 				#
 				# remove every cookie stored on the device for this site
 				foreach ($_COOKIE as $key=>$val) :
@@ -199,7 +201,7 @@ class session {
 				# to prevent a person from simply changing their cookie value to a new account id
 				# each cookie has a salt unique to that account record
 				if ( isset($raw_val[1]) ) :
-					$session->rs = $raw_val[1];
+					self::$random_salt = $raw_val[1];
 				
 					self::rebuild_session_variables();
 					cookie::set_session();
@@ -249,7 +251,7 @@ class session {
 						
 						#
 						# the salt passed from the cookie is valid and matches record found
-						if ( $_SESSION['profile']->rs == $row->random_salt ) :
+						if ( $_SESSION['profile']->random_salt == $row->random_salt ) :
 							self::set_session_variables($row);
 						
 						#
@@ -610,9 +612,11 @@ class session {
 			self::$sess = (object) array();
 			
 			foreach ( $row as $key=>$val) {
-				self::$sess->$key = $val;
+				if ( $key != 'password') {
+					self::$sess->$key = $val;
+				}
 			}
-			print_r(self::$sess);
+			
 			$_SESSION['profile'] = self::$sess;
 		
 			unset($_SESSION['profile']->password);
@@ -620,7 +624,10 @@ class session {
 			$_SESSION['user_email']     = self::$sess->email;
 			$_SESSION['user_id']        = self::$sess->id;
 			$_SESSION['user_name']      = self::$sess->name;
+			$_SESSION['random_salt']    = self::$sess->random_salt;
 			$_SESSION['logged_in_time'] = time();
+			
+			cookie::set_session();
 			
 			return true;
 			

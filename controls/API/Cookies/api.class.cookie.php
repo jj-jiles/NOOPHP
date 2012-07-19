@@ -52,7 +52,7 @@ class cookie {
 	## ##
 		static public function remember_me() {
 			
-			if ( isset($_SESSION['user_id']) && $session->rs ) :
+			if ( isset($_SESSION['user_id']) && $_SESSION['profile']->random_salt ) :
 				
 				# set the expiration for a full year
 					$int  = (60*60*24*60);
@@ -63,7 +63,7 @@ class cookie {
 				# set the cookie
 				setcookie(
 					config::$cookie->remember, 
-					$_SESSION['user_id'] . '|' . $session->rs, 
+					$_SESSION['user_id'] . '|' . $_SESSION['profile']->random_salt, 
 					$time, 
 					"/", 
 					self::domain()
@@ -95,7 +95,7 @@ class cookie {
 			
 			setcookie(
 				config::$cookie->session, 
-				$_SESSION['user_id'] . '|' . $session->rs, 
+				$_SESSION['user_id'] . '|' . $_SESSION['profile']->random_salt, 
 				$time, 
 				"/", 
 				self::domain()

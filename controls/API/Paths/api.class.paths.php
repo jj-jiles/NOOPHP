@@ -10,7 +10,7 @@ class path {
 	
 	
 	static public function absolute() {
-		return self::$cfg->absolute;
+		return config::make_absolute_path();
 	}
 	
 	

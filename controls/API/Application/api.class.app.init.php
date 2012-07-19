@@ -1,7 +1,6 @@
 <?php
-include_once( path::app()      . '/Profile/class.profile.php');
 include_once( path::controls() . '/API/Cookies/api.class.cookie.php');
-include_once( path::app()      . '/Session/class.session.php');
+include_once( path::controls() . '/API/Session/class.session.php');
 
 class app_extends extends API_app {	
 	
@@ -337,9 +336,6 @@ class app_extends extends API_app {
 
 #
 # $app extensions
-	include_once( path::app() . '/Uploads/class.uploads.php');
-	include_once( path::app() . '/Email/class.email.php');
-	include_once( path::app() . '/Pagination/class.pagination.php');
 
 
 ?>

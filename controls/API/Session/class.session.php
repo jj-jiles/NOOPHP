@@ -15,6 +15,11 @@ class session {
 	private static $registration_message = '';
 	private static $sess;
 	
+	
+	# ####
+	#
+	# construct
+	#
 	function _construct() {
 		
 		
@@ -64,27 +69,35 @@ class session {
 		
 		return true;
 	}
-	## ##
 	##
-	## end intialization
+	##
+	## end construct
 	##
 	## ##
 	
 	
 	
+	# ####
+	#
+	# Returns the user's session id
+	#
 	static public function id() {
 		$id = isset($_SESSION['profile']->id) ? $_SESSION['profile']->id : false;
 		return $id;
 	}
+	#
+	# END ::: id()
+	#
+	# ####
 	
 	
 	
 	
-	## ##
-	##
-	## Login Methods
-	##
-	## ##	
+	# ####
+	#
+	# Login Methods
+	#
+	#	
 	
 		## is the user logged in?
 		static public function is_logged_in() {
@@ -113,11 +126,11 @@ class session {
 		static public function is_registering() {
 			return (bool) (request::component() == 'register');
 		}
-	## ##
-	##
-	## end
-	##
-	## ##
+	#
+	#
+	# END ::: Login Methods
+	#
+	# ####
 	
 	
 	
@@ -126,11 +139,11 @@ class session {
 	
 	
 	
-	## ##
-	##
-	## Logout Methods
-	##
-	## ##	
+	# ####
+	#
+	# Logout Methods
+	#
+	#	
 			
 			## Is the user logging out? If so, log them out and redirect to home page
 			static public function is_logging_out() {
@@ -169,11 +182,11 @@ class session {
 				header('Location: ' . url::root() . '/sign-in');
 				exit();
 			}
-	## ##
-	##
-	## end
-	##
-	## ##
+	#
+	#
+	# END ::: Logout Methods
+	#
+	# ####
 	
 	
 	
@@ -182,10 +195,10 @@ class session {
 	
 	
 	
-	## ##
-	##
-	## with each page refresh, renew the session to extend it's timeout
-	## ##	
+	# ####
+	#
+	# Renew the session variables on page load
+	#	
 		static public function renew_session() {
 			
 			#
@@ -209,11 +222,10 @@ class session {
 				
 			endif;
 		}
-	## ##
-	##
-	## end
-	##
-	## ##
+	#
+	# END ::: Renew Session
+	#
+	# ####
 	
 	
 	
@@ -222,24 +234,15 @@ class session {
 	
 	
 	
-	## ##
-	##
-	## with each page refresh, renew the session to extend it's timeout
-	## ##
+	# ###
+	#
+	# Gets the user info from the database
+	# If the random salts match up, it will set the session variables, otherwise terminate the session
+	#
 		static public function rebuild_session_variables() {
 				
 				if ( self::is_logged_in() ) :
-					$sql = "SELECT
-								a.id, a.email, a.password, a.first, a.last, a.company, a.website, a.address, a.city, a.state, a.zip,
-								a.country, a.phone, a.referer, a.account_type, a.account_verified, a.account_status, a.credits, a.enterprise_url,
-								a.enterprise_logo, a.is_enterprise, a.random_salt, a.is_locked, a.locked_time, a.activation_key, 
-								c.coupon_id
-							FROM
-								accounts as a
-								LEFT JOIN accounts_coupons_history as c ON c.account_id = a.id
-							WHERE
-								a.id = ".self::id()
-								." ORDER BY c.redemption_date DESC LIMIT 0,1";
+					$sql = "SELECT * FROM accounts as a WHERE a.id = ".self::id()." LIMIT 0,1";
 					$sql = db::query($sql);
 					db::error();
 					
@@ -272,21 +275,27 @@ class session {
 					endif;
 				endif;
 		}
-	## ##
-	##
-	## end
-	##
-	## ##
+	#
+	# END ::: Rebuild Session
+	#
+	# ####
 	
 	
 	
 	
 	
-	
+	# ####
+	#
+	# Formats the password to a standard, pre-salted format
+	#
 	static public function encode_password($pass) {
 		$pass = md5( config::$salts->password.$pass.config::$salts->password );
 		return $pass;
 	}
+	#
+	# END ::: Encode Password
+	#
+	# ####
 	
 	
 	
@@ -295,12 +304,10 @@ class session {
 	
 	
 	
-	## ##
-	##
-	## If the user is attempting to login, validate them
-	## if they are valid, log them in
-	##
-	## ##	
+	# ####
+	#
+	# Try to login the user with the credentials they have provided
+	#
 		static public function try_login() {
 			
 			$referer = '';
@@ -409,24 +416,62 @@ class session {
 			return false;
 			
 		}
-	## ##
-	##
-	## end
-	##
-	## ##
+	#
+	# END ::: Try Login
+	#
+	# ####
 	
 	
+	
+	
+	
+	
+	
+	
+	# ####
+	#
+	# Echo the login message if there is one
+	#
 	static public function echo_login_message() {
 		if ( isset(self::$login_message) && !empty(self::$login_message) ) :
 			echo str_replace('error:::','', self::$login_message);
 		endif;
 	}
+	#
+	# END ::: Echo Login Message
+	#
+	# ####
 	
 	
+	
+	
+	
+	
+	
+	
+	# ####
+	#
+	# Determine if the user is attempting to verify their account
+	#
 	static public function is_verifying() {		
 		return (bool) ( isset(form::$posts->incl_sign_in) && form::$posts->incl_sign_in == 'verify-account');			
 	}
+	#
+	# END ::: Verify Check
+	#
+	# ####
 	
+	
+	
+	
+	
+	
+	
+	
+	# ####
+	#
+	# The user is verifying their acount, so verify it
+	#
 	static public function verify_account( $data ) {
 		
 		$content      = request::content();
@@ -453,7 +498,22 @@ class session {
 		endif;
 		
 	}
+	#
+	# END ::: Verify Account
+	#
+	# ####
 	
+	
+	
+	
+	
+	
+	
+	
+	# ####
+	#
+	# User has requested to resend the account verification email
+	#
 	static public function resend_verification_email() {
 		
 		$email    = filter_var(form::$posts->incl_email, FILTER_SANITIZE_EMAIL);
@@ -494,19 +554,23 @@ class session {
 		endif;
 				
 	}
+	#
+	# END ::: Account Verification Resend
+	#
+	# ####
 	
 	
 	
 	
-	## ##
-	##
-	## If the user is attempting to login, validate them
-	## if they are valid, log them in
-	##
-	## This is not used if the user is registering via Facebook
-	## Facebook registration is handled in /OAuth/functions.facebook.php
-	##
-	## ##	
+	
+	
+	
+	
+		
+	# ####
+	#
+	# The user is creating their account
+	#	
 	static public function create_account() {
 		
 		if ( !empty(form::$posts->incl_registration_email) ) :
@@ -590,11 +654,10 @@ class session {
 		
 		
 	}
-	## ##
-	##
-	## end
-	##
-	## ##
+	#
+	# END ::: Create Account
+	#
+	# ####
 	
 	
 	
@@ -603,6 +666,10 @@ class session {
 	
 	
 	
+	# ####
+	#
+	# Sets the necessary session variables for the user account
+	#	
 	static private function set_session_variables($row=false) {
 		
 		if ( !$row ) : 
@@ -636,6 +703,10 @@ class session {
 		return false;
 		
 	}
+	#
+	# END ::: Set Session Variables
+	#
+	# ####
 	
 }
 $session = new session();

@@ -50,7 +50,7 @@ class session {
 					exit();
 				endif;
 				
-				if ( @$profile->is_logged_in() && @$profile->not_completed() && @$profile->not_viewing_profile() && $_SESSION['profile']->account_type != 'A' ) :
+				if ( @$profile->is_logged_in() && @$profile->not_completed() && @$profile->not_viewing_profile() ) :
 					header("Location: " . $profile->profile_page() );
 					exit();
 				endif;

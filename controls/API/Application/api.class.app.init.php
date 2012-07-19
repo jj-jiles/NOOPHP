@@ -1,6 +1,6 @@
 <?php
 include_once( path::controls() . '/API/Cookies/api.class.cookie.php');
-include_once( path::controls() . '/API/Session/class.session.php');
+include_once( path::controls() . '/API/Session/api.class.session.php');
 
 class app_extends extends API_app {	
 	

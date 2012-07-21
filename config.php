@@ -19,6 +19,7 @@
 		define('_APP_META_TITLE_'       , 'This is my site');
 		define('_APP_META_DESCRIPTION_' , 'This is my site');
 		define('_APP_META_KEYWORDS_'    , 'PHP, framework, OOP');
+		define('_APP_ACCOUNT_LOCK_OUT_INTERVAL_', '60');
 		
 		define('_APP_COOKIE_LIFESPAN_'  , 20);
 		define('_APP_SALTS_PASSWORD_'   , '');
@@ -48,9 +49,10 @@
 	#
 		define('_DB_HOST_'     , 'localhost');
 		define('_DB_NAME_'     , 'noophp');
-		define('_DB_USER_'     , 'root');
+		define('_DB_USER_'     , '');
 		define('_DB_PASSWORD_' , '');
-		define('_DB_CONFIG_LOOKUP_TABLE_', 'app_config'); // The included SQL file uses the table 'app_config'
+		define('_DB_CONFIG_LOOKUP_TABLE_', ''); // The included SQL file uses the table 'app_config'
+		define('_DB_CONNECT_TYPE_', 'mysqli');
 	#
 	#
 	# ####
@@ -108,10 +110,10 @@
 		define('_ERRORS_REDIRECT_TO_URL_','/error');    
 		      
 		// email address errors are emailed to
-		define('_ERRORS_EMAIL_TO_','erros@domain.com');     
+		define('_ERRORS_EMAIL_TO_','jj@jjis.me');     
 		  
 		// From email address of sent messages
-		define('_ERRORS_EMAIL_FROM_','errors@domain.com');       
+		define('_ERRORS_EMAIL_FROM_','jj@jjis.me');       
 		 
 		// style sheet of error page for custom layout
 		define('_ERRORS_STYLE_SHEET_','assets/css/error-reports.css');      

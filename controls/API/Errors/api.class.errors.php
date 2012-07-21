@@ -192,7 +192,7 @@ class errors {
 			#
 			# backtrace the error and display the information for debugging
 			$debug_mode = _DEBUG_MODE_;
-			if ( @$debug_mode ) { 
+			if ( @$debug_mode || @config::$errors['display'] ) { 
 				self::error_backtrace($n, $s, $f, $l);
 				self::debug();
 			
@@ -284,12 +284,14 @@ class errors {
 				foreach ($errorsThrown as $error) {
 					if ($count > 1 && !empty($error['args'][1]) ) {
 						self::$error_chunk .= ($count == 1) ? self::$error_chunk_header : '';
-						self::$error_chunk .= '<tr>'
-							. '<td>' . ($count-1) . '</td>'
-							. '<td>' . $error['args'][1] . '()</td>'
-							. '<td>' . $error['args'][2] . '</td>'
-							. '<td>' . $error['args'][3] . '</td>'
-							. '</tr>';
+						self::$error_chunk .= '<tr><td>' . ($count-1) . '</td>';
+											
+						for ( $i = 1; $i <= count($error['args']); $i++ ) {
+							$paran = ($i == 1) ? '()' : '';
+							self::$error_chunk .= '<td>' . $error['args'][$i] . $paran . '</td>';
+						}
+						
+						self::$error_chunk .= '</tr>';						
 					}
 					$count++;
 	
@@ -338,14 +340,17 @@ class errors {
 	function error_thrown($errno, $errstr, $error_file, $error_line) {
 		global $security,$app;
 		
-		$errorThrown = debug_backtrace();
+		$errorThrowns = debug_backtrace();
 		$errorFunction = '';
 		
 		#
 		# we skip the first two errors
 		# they are the initial calls from error catching
 		# we can ignore them
-		#		
+		#
+		
+		foreach ( $errorsThrown as $errorThrown ) {
+		
 		if (isset($errorThrown[2])) {
 			$errorThrown = $errorThrown[2];
 			$errorFunction = "\n".'Calling Function: '.$errorThrown['function'];
@@ -391,6 +396,7 @@ class errors {
 			//if ( !error_log( $message, 1, _ERRORS_EMAIL_TO_, "From: " . _ERRORS_EMAIL_FROM_ ) ) {
 				echo _ERRORS_ERROR_MESSAGE_;
 			//}
+		}
 		}
 	}
 	/* ***********************************************************************
@@ -462,5 +468,5 @@ class errors {
 			$errors = new errors();
 		# Hide error messages
 			error_reporting(E_ALL);
-			ini_set('display_errors', 1);
+			ini_set('display_errors', 0);
 ?>

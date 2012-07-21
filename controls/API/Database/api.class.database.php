@@ -6,7 +6,7 @@
 *	The class manages all database interraction for the purpose of allowing certain things to be
 *	turned on and off, as well as making development easier and more uniform.  
 *   An example would be Error Reporting.  Once the application is on the live
-*	server, we can set $config->errors['display'] to false. Error reporting for database errors will not be shown.
+*	server, we can set _ERRORS_DISPLAY_ to false. Error reporting for database errors will not be shown.
 *
 *	This is real simple to use
 *
@@ -19,8 +19,7 @@
 **
 **
 **	Configuration ***
-**		Scroll to the __construct method if you need to change which object
-**		the database class uses for $config->connection and $config->errors
+**		Configuration should be handled in the /config.php file. You set the connection details there
 **
 **
 **
@@ -135,6 +134,7 @@ class db {
 	private static $connect_type  = 'mysql';
 	private static $sql_txt       = '';
 	private static $config;
+	private static $mysqli;
   	
 	private static $instance = false;
 	private static $db_link = false;
@@ -201,10 +201,21 @@ class db {
 	
 		if ( !empty(config::$db->db_name) && !empty( config::$db->config_lookup_table ) ) {
 			
+			if ( defined('_DB_CONNECT_TYPE_') ) {
+				self::$connect_type = _DB_CONNECT_TYPE_;
+				self::$connect_type = !empty(self::$connect_type) ? self::$connect_type : 'mysql';
+			} else {
+				self::$connect_type = 'mysql';
+			}
+			
 			#
 			# try the connection
-			self::$db_link = mysql_connect(config::$db->host, config::$db->user, config::$db->password) or ('Error connecting to the database: '.debug_backtrace());
-	
+			if ( self::$connect_type == 'mysql' ) :
+				self::$db_link = mysql_connect(config::$db->host, config::$db->user, config::$db->password) or ('Error connecting to the database: '.debug_backtrace());
+			else :
+				self::$db_link = self::_mysqli_connect(config::$db->host, config::$db->user, config::$db->password) or ('Error connecting to the database: '.debug_backtrace());
+			endif;
+			
 			# The connection was successful, select the database
 			if ( @self::$db_link ) {
 				self::$db_selected = mysql_select_db(config::$db->db_name);
@@ -454,9 +465,9 @@ class db {
 	* This is used automatically during multi_query()
 	* 
 	**************************************************************** */
-	static public function mySqliConnect() {
-		self::$mySqli = new mysqli(config::$db->host, config::$db->user, config::$db->password, config::$db->db_name);
-		return self::$mySqli;
+	static public function _mysqli_connect() {
+		self::$mysqli = new mysqli(config::$db->host, config::$db->user, config::$db->password, config::$db->db_name);
+		return self::$mysqli;
 	}
 	/* ****************************************************************
 	* end :::
@@ -475,8 +486,8 @@ class db {
 	* using the multi_query() method
 	* 
 	**************************************************************** */
-	static public function mySqliClose() {
-		mysqli_close(self::$mySqli);
+	static public function _mysqli_close() {
+		mysqli_close(self::$mysqli);
 	}
 	/* ****************************************************************
 	* end :::
@@ -499,7 +510,7 @@ class db {
 		## keep the string value of the SQL statement in case of error
 		self::$sql_txt = $sql;
 
-		$mysqli = self::mySqliConnect();
+		$mysqli = self::_mysqli_connect();
 
 		self::$result = mysqli_multi_query( $mysqli, $sql );
 		
@@ -507,7 +518,7 @@ class db {
 			self::$error = mysql_error() . '<br />Query: '.$sql;
 			self::error();		
 		else :		
-			self::mySqliClose();
+			self::_mysqli_close();
 			return self::$result;		
 		endif;
 	}
@@ -541,8 +552,8 @@ class db {
 			if ( self::$connect_type == 'mysql' ) :
 				$$uniqueIdentifier=mysql_fetch_object( $sql );
 			else :
-				$$uniqueIdentifier=mysql_fetch_object( $sql );
-			endif;				
+				$$uniqueIdentifier=mysqli_fetch_object( $sql );
+			endif;
 			return $$uniqueIdentifier;
 			unset( $$uniqueIdentifier );
 		endif;
@@ -574,7 +585,11 @@ class db {
 	static public function fetch_array( $sql ) {
 		if ( @self::$result ) :
 			$uniqueIdentifier=rand();
-			$$uniqueIdentifier=mysql_fetch_array( $sql );
+			if ( self::$connect_type == 'mysql' ) :
+				$$uniqueIdentifier=mysql_fetch_array( $sql );
+			else :
+				$$uniqueIdentifier=mysqli_fetch_array( $sql );
+			endif;
 			return $$uniqueIdentifier;
 			unset( $$uniqueIdentifier );
 		endif;
@@ -599,7 +614,11 @@ class db {
 		if ( @self::$result ) :
 			$uniqueIdentifier=rand();
 			if (empty($result)) $result = self::$result;
-			$$uniqueIdentifier=mysql_num_rows( $result );
+			if ( self::$connect_type == 'mysql' ) :
+				$$uniqueIdentifier = mysql_num_rows( $result );
+			else :
+				$$uniqueIdentifier = mysqli_num_rows($result);
+			endif;
 			return $$uniqueIdentifier;
 			unset( $$uniqueIdentifier );
 		else :
@@ -626,7 +645,11 @@ class db {
 		if ( @self::$result ) :
 			$uniqueIdentifier=rand();
 			if (empty($result)) $result = self::$result;
-			$$uniqueIdentifier = mysql_rows_affected( $result );
+			if ( self::$connect_type == 'mysql' ) :
+				$$uniqueIdentifier = mysql_affected_rows( $result );
+			else :
+				$$uniqueIdentifier = mysqli_affected_rows($result);
+			endif;
 			return $$uniqueIdentifier;
 			unset( $$uniqueIdentifier );
 		else :
@@ -656,10 +679,22 @@ class db {
 	* 
 	**************************************************************** */
 	static public function fetch_row ( $field_name ) {
-		if (is_numeric( $field_name )) {
-			$field_value=mysql_result( self::$result, $field_name );
+		if ( self::$connect_type == 'mysql' ) {
+			if (is_numeric( $field_name )) {
+				$field_value=mysql_result( self::$result, $field_name );
+			} else {
+				$field_value=mysql_result( self::$result, 0, $field_name );
+			}
+		
 		} else {
-			$field_value=mysql_result( self::$result, 0, $field_name );
+			if (is_numeric( $field_name )) {
+				$rows = self::$result->fetch_row();
+				$field_value = $rows[$field_name];
+			} else {
+				$rows = self::$result->fetch_assoc();
+				$field_value = $rows[$field_name];
+			}
+			
 		}
 		return $field_value;
 	}
@@ -692,17 +727,23 @@ class db {
 		$ret = array();
 		$sql = self::query($sql);
 		if (self::num_rows() > 0) {
-			while ($rec = mysql_fetch_array( $sql )) {
-				for ($a=0; $a < count($rec); $a++) {
-					$ret[$i] = $rec;
+			
+			if ( self::$connect_type == 'mysql' ) {
+				while ($rec = mysql_fetch_array( $sql )) {
+					for ($a=0; $a < count($rec); $a++) {
+						$ret[$i] = $rec;
+					}
+					$i++;
+					$field_value=$ret[$row][$field_name];
 				}
-				$i++;
-			}
+			
+			} else {
+				$field_value = $sql->fetch_array(MYSQLI_ASSOC);
 				
-			$field_value=$ret[$row][$field_name];
+			}
 		}
 
-		return ($field_value);
+		return $field_value;
 	}
 	/* ****************************************************************
 	* end :::

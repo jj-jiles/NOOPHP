@@ -1,7 +1,7 @@
 --
 -- Database: `noophp`
 --
-CREATE DATABASE `noophp` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE `noophp` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `noophp`;
 
 -- --------------------------------------------------------
@@ -15,9 +15,15 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `email` varchar(50) NOT NULL,
   `password` char(64) NOT NULL,
   `full_name` varchar(75) NOT NULL,
+  `activation_key` char(64) NOT NULL,
+  `account_verified` enum('N','Y') NOT NULL DEFAULT 'N',
+  `account_status` binary(1) NOT NULL DEFAULT '0',
+  `locked_time` int(11) NOT NULL,
+  `is_locked` enum('N','Y') NOT NULL DEFAULT 'N',
+  `random_salt` char(64) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -58,14 +64,14 @@ CREATE TABLE IF NOT EXISTS `app_config` (
   `contact_email` varchar(75) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `app_config`
 --
 
 INSERT INTO `app_config` (`id`, `app_name`, `app_title`, `app_domain`, `app_meta_title`, `app_meta_description`, `app_meta_keywords`, `app_structure`, `app_allowed_login_failures`, `app_account_lock_out_interval`, `url_base`, `url_admin`, `url_error`, `url_libraries`, `path_base`, `path_admin`, `path_libraries`, `cookie_app`, `cookie_session`, `cookie_general`, `cookie_lifespan`, `key_google_maps`, `analytics_code`, `status_is_active`, `status_is_live`, `status_display_errors`, `salts_password`, `aes_password`, `contact_name`, `contact_email`) VALUES
-(7, 'app_name', 'NOOPHP', '', '', '', '', 'component,content,subcontent,extendedcontent', 5, 60, 'http://noophp.com', '/admin', '/error', '', '/public_html/noophp', '/admin', '', 'main_cookie', 'main_session', 'main_general', 20, '', '', 'Y', 'N', 'Y', '', '', '', '');
+(1, 'app_name', 'NOOPHP', '', '', '', '', 'component,content,subcontent,extendedcontent', 5, 60, 'http://noophp.com', '/admin', '/error', '', '/public_html/noophp', '/admin', '', 'main_cookie', 'main_session', 'main_general', 20, '', '', 'Y', 'N', 'Y', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -80,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `page_url` varchar(225) NOT NULL,
   `session_required` enum('N','Y') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `pages`
@@ -89,3 +95,4 @@ CREATE TABLE IF NOT EXISTS `pages` (
 INSERT INTO `pages` (`id`, `page_title`, `page_description`, `page_url`, `session_required`) VALUES
 (1, 'Welcome To NOOPHP', '', 'home', 'N'),
 (2, 'NOOPHP Account', '', 'account', 'Y');
+

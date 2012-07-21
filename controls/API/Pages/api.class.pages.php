@@ -20,7 +20,7 @@ class page {
 			$page = request::component();
 			$page = empty($page) ? 'home' : $page;
 			
-			$page = mysql_real_escape_string(htmlspecialchars($page));
+			$page = form::clean($page,'url');
 			
 			$sql = "SELECT id, page_title, page_description, page_url, session_required FROM pages WHERE page_url = '$page'";
 			$sql = db::to_array($sql);

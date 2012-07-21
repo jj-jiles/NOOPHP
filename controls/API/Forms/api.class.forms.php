@@ -960,8 +960,8 @@ class form {
 		return self::$method->validate();
 	}
 	
-	static public function clean($text_to_clean) {
-		return self::$method->clean($text_to_clean);
+	static public function clean($text_to_clean,$filter_type=false) {
+		return self::$method->clean($text_to_clean,$filter_type=$filter_type);
 	}
 	
 	static public function createVariables() {

@@ -343,8 +343,63 @@ class Forms_Methods {
 	
 	
 	
-	function clean($text_to_clean) {
-		return addslashes(filter_var($text_to_clean, FILTER_SANITIZE_STRING));
+	function clean($text_to_clean, $filter_type=false) {
+		
+		$filter_type = (!$filter_type) ? FILTER_SANITIZE_STRING : $filter_type;
+		
+		switch ($filter_type) {
+			
+			case 'email' :
+				$filter_type = FILTER_SANITIZE_EMAIL;
+				break;
+			
+			case 'encoded' :
+				$filter_type = FILTER_SANITIZE_ENCODED;
+				break;
+			
+			case 'magic_quotes' :
+				$filter_type = FILTER_SANITIZE_MAGIC_QUOTES;
+				break;
+			
+			case 'float' :
+				$filter_type = FILTER_SANITIZE_NUMBER_FLOAT;
+				break;
+			
+			case 'int' :
+				$filter_type = FILTER_SANITIZE_NUMBER_INT;
+				break;
+			
+			case 'special_chars' :
+				$filter_type = FILTER_SANITIZE_SPECIAL_CHARS;
+				break;
+			
+			case 'full_special_chars' :
+				$filter_type = FILTER_SANITIZE_FULL_SPECIAL_CHARS;
+				break;
+			
+			case 'string' :
+				$filter_type = FILTER_SANITIZE_STRING;
+				break;
+			
+			case 'stripped' :
+				$filter_type = FILTER_SANITIZE_STRIPPED;
+				break;
+			
+			case 'url' :
+				$filter_type = FILTER_SANITIZE_URL;
+				break;
+			
+			case 'raw' :
+				$filter_type = FILTER_UNSAFE_RAW;
+				break;		
+				
+			default :
+				$filter_type = FILTER_SANITIZE_STRING;
+				break;
+		}
+		
+		
+		return addslashes(filter_var($text_to_clean, $filter_type));
 	}
 	
 	

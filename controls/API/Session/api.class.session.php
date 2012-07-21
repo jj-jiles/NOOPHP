@@ -83,6 +83,7 @@ class session {
 	#
 	static public function id() {
 		$id = isset($_SESSION['profile']->id) ? $_SESSION['profile']->id : false;
+		$id = form::clean($id,'int');
 		return $id;
 	}
 	#
@@ -318,11 +319,11 @@ class session {
 				
 				if ( isset(form::$posts->incl_email) ) :
 					
-					$email    = filter_var(form::$posts->incl_email, FILTER_SANITIZE_EMAIL);
+					$email    = form::clean(form::$posts->incl_email, 'email');
 					$password = form::$posts->incl_password;
 				
 				else :
-					$email    = filter_var(form::$posts->_email, FILTER_SANITIZE_EMAIL);				
+					$email    = form::clean(form::$posts->_email, 'email');				
 					$password = form::$posts->_pass;
 					$referer  = form::$posts->_ref;
 				
@@ -516,7 +517,7 @@ class session {
 	#
 	static public function resend_verification_email() {
 		
-		$email    = filter_var(form::$posts->incl_email, FILTER_SANITIZE_EMAIL);
+		$email    = form::clean(form::$posts->incl_email, 'email');
 		
 		$sql = "SELECT first, last, email, activation_key, account_status, account_verified FROM accounts WHERE email = '$email'";
 		$sql = db::query($sql);
@@ -575,7 +576,7 @@ class session {
 		
 		if ( !empty(form::$posts->incl_registration_email) ) :
 				
-				$email        = filter_var(form::$posts->incl_registration_email, FILTER_SANITIZE_EMAIL);				
+				$email        = form::clean(form::$posts->incl_registration_email, 'email');
 				$password     = form::$posts->incl_password;
 				$conf_pass    = form::$posts->confirm_password;
 				
@@ -589,9 +590,9 @@ class session {
 			
 			if ( !form::has_error() ) :
 			
-				$privacy      = form::$posts->incl_privacy;
-				$referer      = form::$posts->incl_referer;
-				$account_type = form::$posts->incl_account_type;
+				$privacy      = form::clean(form::$posts->incl_privacy);
+				$referer      = form::clean(form::$posts->incl_referer);
+				$account_type = form::clean(form::$posts->incl_account_type);
 				
 				if ( is_array($account_type) ) :
 					if ( isset($account_type[2]) ) :

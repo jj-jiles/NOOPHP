@@ -19,7 +19,7 @@ class page {
 		if ( db::is_specified() ) :
 			$page = request::component();
 			$page = empty($page) ? 'home' : $page;
-			
+			echo request::$uri['referer'];
 			$sql = "SELECT id, page_title, page_description, page_url, session_required FROM pages WHERE page_url = '$page'";
 			$sql = db::to_array($sql);
 			if ( db::num_rows() > 0 ) :
